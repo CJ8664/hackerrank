@@ -1,0 +1,100 @@
+# Problem url: https://www.hackerrank.com/challenges/letter-islands
+
+import math
+
+length = 0
+numisl = 0
+a = ''
+size = 0
+maxlen = 0
+subs = dict()
+
+def getNumIsland(s):
+
+    da = a
+    flag = 1
+    ls = int(len(s))
+    
+    for i in xrange(length):
+        for j in xrange(ls):
+            if(a[i+j]!=s[j]):
+                flag = 0
+                break
+        if(flag == 1): # Substring match
+            flag = 0
+            da = da[0:i] + ("x"*ls) + a[i+ls:] # try to replace char at index
+        else:
+            flag = 1
+        if(i+ls==length):
+            break
+            
+    count = 0       
+    flag = 1
+    for n in xrange(length):
+        if(da[n]=='x' and flag == 1):
+            count+=1
+            flag = 0
+        elif(da[n]!='x'):
+            flag = 1
+         
+    print(s,count)
+    return count
+
+def runProcess():  
+
+    global length, numisl, size, a
+    finalcnt = 0
+    for i in xrange(length):
+        for j in xrange(length):
+            if(j+size>length):
+                break
+            s = a[j:j+size]
+            if s not in subs:
+                subs[s] = 0
+                # check here is the number of islands are 
+                cnt = getNumIsland(s)
+                if(cnt == numisl):
+                    #print(s,cnt)
+                    finalcnt+=1 
+        size+=1
+        if(size>maxlen):
+            break
+    print(str(finalcnt))   
+    
+def main():
+
+    global length, numisl, size, a, subs, maxlen
+    #a = raw_input()
+    a = 'ababaaaaaaaaaaaabababbababababaaababaabbbbbbbbbbbbababbabababbababbababbbbababbabaa'
+
+    length = len(a)
+    print('length of input: ' + str(length))
+    size = 1
+    numisl = 2.0
+    maxlen = math.ceil((length/numisl)-1)
+
+    runProcess()
+
+if __name__ == '__main__':
+    main()
+    
+'''
+for s in subs.keys():
+    cond = 0
+    l = len(s)
+    for i in xrange(length):
+        
+    for i in xrange(length):
+        if(checkSubs() and cond==0):
+            subs[s]+=1
+            cond = -1
+        else:
+            cond = 0
+        print(s + ":" + str(subs[s]))
+        if(i+l>=length):
+            if(subs[s]==numisl):
+                finalcnt+=1
+            break
+
+print(str(finalcnt))
+'''
